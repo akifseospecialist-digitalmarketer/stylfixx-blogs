@@ -1,0 +1,46 @@
+# ===== 1. DecapBridge dashboard se mila "backend:" block yahan paste karo =====
+# (neeche wale 5 lines sirf example/placeholder hain, inhe replace karna hai)
+backend:
+  name: git-gateway
+  repo: GITHUB_USERNAME/REPO_NAME
+  branch: main
+  # base_url, auth_type, auth_endpoint ... DecapBridge jo de wahi lagao
+
+# ===== 2. Baaki sab same rahega =====
+media_folder: "images"            # repo ke andar ka folder
+public_folder: "/blog/images"     # site par URL
+publish_mode: simple
+locale: en
+
+collections:
+  - name: posts
+    label: Blog Posts
+    label_singular: Blog Post
+    folder: content/posts
+    create: true
+    extension: json
+    format: json
+    slug: "{{fields.slug}}"       # file ka naam = URL (stylfixx.com/blog/<slug>)
+    identifier_field: title
+    summary: "{{title}} ({{category}}, {{date}})"
+    sortable_fields: [date, title]
+    fields:
+      - { label: "Title (H1)", name: title, widget: string }
+      - { label: "URL Slug", name: slug, widget: string, pattern: ['^[a-z0-9-]+$', "Sirf small letters, numbers aur - (jaise best-paint-colors-2026)"], hint: "Post banane ke baad badalna mat, URL toot jayega" }
+      - { label: "SEO Title (Google me dikhega)", name: seo_title, widget: string, required: false }
+      - { label: "Category", name: category, widget: select, options: ["Construction", "Interior Design"], default: "Construction" }
+      - { label: "Date", name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { label: "Featured Image", name: image, widget: image, choose_url: false }
+      - { label: "Meta Description (150-160 chars)", name: description, widget: text }
+      - { label: "Keywords (comma se alag)", name: keywords, widget: text, required: false }
+      - { label: "Draft (site par mat dikhao)", name: draft, widget: boolean, default: false }
+      - { label: "Article ke end me Contact/CTA box dikhao", name: show_cta, widget: boolean, default: true }
+      - { label: "Article", name: body, widget: markdown, hint: "Heading ke liye H2 use karo (Table of Contents H2 se banta hai)" }
+      - label: "FAQs (Google schema apne aap banega)"
+        name: faqs
+        widget: list
+        required: false
+        summary: "{{fields.question}}"
+        fields:
+          - { label: "Question", name: question, widget: string }
+          - { label: "Answer", name: answer, widget: text }
