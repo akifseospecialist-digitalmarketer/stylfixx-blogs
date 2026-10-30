@@ -1,0 +1,13 @@
+RewriteEngine On
+DirectoryIndex index.php index.html
+
+# index ko blog par redirect karo (canonical fix)
+RewriteRule ^index/?$ /blog [R=301,L]
+
+# internal folders ko direct browser access band
+RewriteRule ^(content|\.github)(/|$) - [F,L]
+
+# clean blog post URLs (real folder/file ko chhod kar: admin, images, assets)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([a-zA-Z0-9-]+)/?$ post.php?slug=$1 [L,QSA]
