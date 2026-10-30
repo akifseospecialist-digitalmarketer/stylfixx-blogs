@@ -15,8 +15,8 @@
 .post-wrap .meta-item i{color:var(--secondary)}
 
 .post-wrap .article-content{padding:40px 0 80px}
-.post-wrap .featured-image{width:100%;height:450px;border-radius:var(--radius);overflow:hidden;margin-bottom:50px;box-shadow:var(--shadow)}
-.post-wrap .featured-image img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.post-wrap .featured-image{width:100%;height:auto;border-radius:var(--radius);overflow:hidden;margin-bottom:50px;box-shadow:var(--shadow)}
+.post-wrap .featured-image img{width:100%;height:100%;object-fit:contain;transition:transform .5s ease}
 .post-wrap .featured-image:hover img{transform:scale(1.03)}
 
 /* Article body */
