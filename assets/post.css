@@ -20,7 +20,7 @@
 .post-wrap .featured-image:hover img{transform:scale(1.03)}
 
 /* Article body */
-.post-wrap .article-body{font-size:1.125rem;line-height:1.8;background:#fff;padding:50px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.post-wrap .article-body{font-size:1.125rem;line-height:1.8;background:#fff;padding:50px;padding-top:0px;border-radius:var(--radius);box-shadow:var(--shadow)}
 .post-wrap .article-body p{margin-bottom:28px;color:#444}
 .post-wrap .article-body h2{font-size:1.8rem;margin:50px 0 24px;padding-bottom:12px;border-bottom:2px solid var(--gray-light)}
 .post-wrap .article-body h3{font-size:1.4rem;margin:40px 0 20px}
