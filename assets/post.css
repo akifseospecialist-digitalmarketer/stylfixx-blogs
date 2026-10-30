@@ -42,7 +42,7 @@
 @media(max-width:768px){.post-wrap table{display:block;overflow-x:auto;white-space:nowrap;font-size:.9rem}.post-wrap table th,.post-wrap table td{padding:12px 15px;min-width:150px}}
 
 /* TOC */
-.post-wrap .toc{background:#f9f7f4;border:1px solid var(--gray-light);border-radius:var(--radius);padding:25px 30px;margin-bottom:40px}
+.post-wrap .toc{background:#f9f7f4;border:1px solid var(--gray-light);border-radius:var(--radius);padding:25px 30px;display:none;margin-bottom:40px}
 .post-wrap .toc strong{display:block;font-size:1.1rem;margin-bottom:15px;color:var(--primary)}
 .post-wrap .toc ul{list-style:none;padding-left:0}
 .post-wrap .toc li{margin-bottom:10px}
