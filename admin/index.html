@@ -9,5 +9,118 @@
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <script>
+  // Top bar: "Publish" ki jagah "Save" + Draft / Scheduled / Published badge
+  (function () {
+    // 1) Misleading words badlo (sirf buttons / menu items me, article text me nahi)
+    var WORDS = {
+      "Publish": "Save",
+      "Published": "Saved",
+      "Publish now": "Save now",
+      "Publish and create new": "Save and create new",
+      "Publish and duplicate": "Save and duplicate",
+      "Publishing...": "Saving...",
+      "Publishing…": "Saving…"
+    };
+
+    // 2) Status badge (config.yml ke Status options ke labels se match hota hai)
+    var STATUS = {
+      "📝 Draft":      { bg: "#fef3c7", fg: "#92400e" },
+      "⏰ Scheduled":  { bg: "#dbeafe", fg: "#1e40af" },
+      "✅ Published":  { bg: "#dcfce7", fg: "#166534" }
+    };
+
+    var EDITABLE = '[contenteditable="true"], textarea, input';
+    var badge = null;
+    var lastStatus = null;
+
+    function renameButtons() {
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      var node;
+      while ((node = walker.nextNode())) {
+        var p = node.parentElement;
+        if (!p) continue;
+        var t = node.nodeValue.trim();
+        if (!Object.prototype.hasOwnProperty.call(WORDS, t)) continue;
+        if (p.closest(EDITABLE)) continue;
+        if (!p.closest('button, [role="button"], [role="menuitem"]')) continue;
+        node.nodeValue = node.nodeValue.replace(t, WORDS[t]);
+      }
+    }
+
+    function readStatus() {
+      var found = [];
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      var node;
+      while ((node = walker.nextNode())) {
+        var t = node.nodeValue.replace(/\s+/g, " ").trim();
+        if (!Object.prototype.hasOwnProperty.call(STATUS, t)) continue;
+        var p = node.parentElement;
+        if (!p || p.closest(EDITABLE)) continue;
+        // khula hua dropdown menu ignore karo, sirf chuni hui value lo
+        if (p.closest('[role="option"], [role="listbox"], [class*="-menu"]')) continue;
+        found.push(t);
+      }
+      return found;
+    }
+
+    function findDeleteButton() {
+      var els = document.querySelectorAll('button, [role="button"]');
+      for (var i = 0; i < els.length; i++) {
+        if (/^Delete (unpublished )?entry$/i.test(els[i].textContent.trim())) return els[i];
+      }
+      return null;
+    }
+
+    function renderBadge() {
+      var found = readStatus();
+
+      if (found.length === 0) {               // editor khula hi nahi
+        if (badge && badge.parentNode) badge.parentNode.removeChild(badge);
+        lastStatus = null;
+        return;
+      }
+      if (found.length === 1) lastStatus = found[0];
+      if (!lastStatus) return;
+
+      if (!badge) {
+        badge = document.createElement("span");
+        badge.id = "status-badge";
+      }
+      var cfg = STATUS[lastStatus];
+      var css = "display:inline-block;margin-left:12px;padding:8px 14px;border-radius:6px;" +
+                "font:600 14px/1 system-ui,-apple-system,Segoe UI,sans-serif;white-space:nowrap;" +
+                "align-self:center;background:" + cfg.bg + ";color:" + cfg.fg + ";";
+
+      var del = findDeleteButton();
+      if (!del) {                              // fallback: top-center par fixed
+        css += "position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:9999;margin-left:0;";
+      }
+      if (badge.textContent !== lastStatus) badge.textContent = lastStatus;
+      if (badge.getAttribute("style") !== css) badge.setAttribute("style", css);
+
+      if (del) {
+        if (del.nextElementSibling !== badge) del.insertAdjacentElement("afterend", badge);
+      } else if (badge.parentNode !== document.body) {
+        document.body.appendChild(badge);
+      }
+    }
+
+    function run() { renameButtons(); renderBadge(); }
+
+    var timer = null;
+    new MutationObserver(function (mutations) {
+      var relevant = mutations.some(function (m) {
+        var el = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+        return !(el && el.closest && el.closest('[contenteditable="true"], textarea'));
+      });
+      if (!relevant || timer) return;
+      timer = setTimeout(function () { timer = null; run(); }, 120);
+    }).observe(document.body, { childList: true, subtree: true, characterData: true });
+
+    run();
+  })();
+  </script>
 </body>
 </html>
