@@ -42,18 +42,39 @@ collections:
     format: json
     slug: "{{fields.slug}}"
     identifier_field: title
-    summary: "{{title}} ({{category}}, {{date}})"
-    sortable_fields: [date, title]
+    summary: "[{{status}}] {{title}} ({{category}}, {{date}})"
+    sortable_fields: [date, title, status]
+    view_filters:
+      - { label: "Draft", field: status, pattern: "draft" }
+      - { label: "Scheduled", field: status, pattern: "scheduled" }
+      - { label: "Published", field: status, pattern: "published" }
+    view_groups:
+      - { label: "Status", field: status }
     fields:
       - { label: "Title (H1)", name: title, widget: string }
       - { label: "URL Slug", name: slug, widget: string, pattern: ['^[a-z0-9-]+$', "Sirf small letters, numbers aur - (jaise best-paint-colors-2026)"], hint: "Post banane ke baad badalna mat, URL toot jayega" }
       - { label: "SEO Title (Google me dikhega)", name: seo_title, widget: string, required: false }
       - { label: "Category", name: category, widget: select, options: ["Construction", "Interior Design"], default: "Construction" }
-      - { label: "Date", name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - label: "Status"
+        name: status
+        widget: select
+        options:
+          - { label: "📝 Draft (site par nahi dikhega)", value: "draft" }
+          - { label: "⏰ Scheduled (date/time par live hoga)", value: "scheduled" }
+          - { label: "✅ Published (abhi live)", value: "published" }
+        default: "draft"
+        hint: "Scheduled chuno to neeche Publish Date & Time future ka daalo"
+      - label: "Publish Date & Time"
+        name: date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        picker_utc: false
+        hint: "Scheduled ke liye future date + time daalo (IST). Published ke liye aaj ki date."
       - { label: "Featured Image", name: image, widget: image, choose_url: false }
       - { label: "Meta Description (150-160 chars)", name: description, widget: text }
       - { label: "Keywords (comma se alag)", name: keywords, widget: text, required: false }
-      - { label: "Draft (site par mat dikhao)", name: draft, widget: boolean, default: false }
       - { label: "Article ke end me Contact/CTA box dikhao", name: show_cta, widget: boolean, default: true }
       - { label: "Article", name: body, widget: markdown, hint: "Heading ke liye H2 use karo (Table of Contents H2 se banta hai)" }
       - label: "FAQs (Google schema apne aap banega)"
