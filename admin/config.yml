@@ -59,11 +59,11 @@ collections:
         name: status
         widget: select
         options:
-          - { label: "📝 Draft (site par nahi dikhega)", value: "draft" }
-          - { label: "⏰ Scheduled (date/time par live hoga)", value: "scheduled" }
-          - { label: "✅ Published (abhi live)", value: "published" }
+          - { label: "📝 Draft", value: "draft" }
+          - { label: "⏰ Scheduled", value: "scheduled" }
+          - { label: "✅ Published", value: "published" }
         default: "draft"
-        hint: "Scheduled chuno to neeche Publish Date & Time future ka daalo"
+        hint: "Draft = site par nahi dikhega | Scheduled = neeche ke date/time par live | Published = abhi live"
       - label: "Publish Date & Time"
         name: date
         widget: datetime
