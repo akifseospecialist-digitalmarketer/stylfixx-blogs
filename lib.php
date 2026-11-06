@@ -2,6 +2,9 @@
 // Blog ka common code: posts load karna, markdown render, schema, CTA
 error_reporting(error_reporting() & ~E_DEPRECATED);
 
+// Scheduled posts IST ke hisaab se live hongi
+date_default_timezone_set('Asia/Kolkata');
+
 define('POSTS_DIR', __DIR__ . '/content/posts/');
 define('SITE_URL', 'https://stylfixx.com');
 
@@ -19,12 +22,29 @@ function abs_url($path) {
     return preg_match('#^https?://#', $path) ? $path : SITE_URL . $path;
 }
 
-// Sab posts (newest first). Draft posts site par nahi dikhte.
+// Post site par live hai ya nahi (draft / scheduled / published)
+function is_live(array $post) {
+    // Purane posts jinme status field nahi hai: pehle wala draft toggle chalega
+    if (empty($post['status'])) {
+        return empty($post['draft']);
+    }
+    switch ($post['status']) {
+        case 'published':
+            return true;
+        case 'scheduled':
+            $ts = strtotime($post['date'] ?? '');
+            return $ts !== false && $ts <= time();
+        default: // draft ya koi unknown value
+            return false;
+    }
+}
+
+// Sab live posts (newest first). Draft aur future-scheduled posts site par nahi dikhte.
 function load_posts() {
     $posts = [];
     foreach (glob(POSTS_DIR . '*.json') as $file) {
         $d = json_decode(file_get_contents($file), true);
-        if (!is_array($d) || !empty($d['draft'])) continue;
+        if (!is_array($d) || !is_live($d)) continue;
         $d['slug'] = basename($file, '.json');   // URL = file ka naam
         $d += ['title' => '', 'category' => 'General', 'image' => '', 'date' => '2000-01-01',
                'description' => '', 'body' => '', 'faqs' => [], 'show_cta' => true];
@@ -73,8 +93,8 @@ function schema_json($post) {
     $article = [
         '@context' => 'https://schema.org', '@type' => 'Article',
         'headline' => $post['title'], 'description' => $post['description'],
-        'datePublished' => date('Y-m-d', strtotime($post['date'])),
-        'dateModified' => date('Y-m-d', strtotime($post['date'])),
+        'datePublished' => date('c', strtotime($post['date'])),
+        'dateModified' => date('c', strtotime($post['date'])),
         'author' => ['@type' => 'Organization', 'name' => 'Stylfixx'],
         'publisher' => ['@type' => 'Organization', 'name' => 'Stylfixx',
             'logo' => ['@type' => 'ImageObject', 'url' => SITE_URL . '/images/logo.png']],
