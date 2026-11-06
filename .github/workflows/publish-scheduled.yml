@@ -1,0 +1,35 @@
+name: Publish scheduled posts (status update)
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # har 10 minute
+  workflow_dispatch:          # manual run ke liye
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-scheduled
+  cancel-in-progress: false
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Flip scheduled -> published
+        run: python3 scripts/publish_scheduled.py
+
+      - name: Commit changes
+        run: |
+          if [ -n "$(git status --porcelain content/posts)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add content/posts
+            git commit -m "Auto: scheduled posts marked as published"
+            git pull --rebase origin main
+            git push
+          else
+            echo "No changes."
+          fi
