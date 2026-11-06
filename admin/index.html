@@ -89,7 +89,7 @@
         badge.id = "status-badge";
       }
       var cfg = STATUS[lastStatus];
-     var css = "display:inline-flex;align-items:center;flex-shrink:0;height:36px;box-sizing:border-box;margin-left:12px;padding:0 14px;border-radius:6px;" +
+      var css = "display:inline-flex;align-items:center;flex-shrink:0;height:36px;box-sizing:border-box;margin-left:12px;padding:0 14px;border-radius:6px;" +
                 "font:600 14px/1 system-ui,-apple-system,Segoe UI,sans-serif;white-space:nowrap;" +
                 "align-self:center;background:" + cfg.bg + ";color:" + cfg.fg + ";";
 
@@ -102,6 +102,12 @@
 
       if (del) {
         if (del.nextElementSibling !== badge) del.insertAdjacentElement("afterend", badge);
+        // wrapper div (Delete button + badge) ko flex row banao
+        var wrap = del.parentElement;
+        if (wrap && wrap.style.display !== "flex") {
+          wrap.style.display = "flex";
+          wrap.style.alignItems = "center";
+        }
       } else if (badge.parentNode !== document.body) {
         document.body.appendChild(badge);
       }
