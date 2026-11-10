@@ -4,6 +4,9 @@ DirectoryIndex index.php index.html
 # index ko blog par redirect karo (canonical fix)
 RewriteRule ^index/?$ /blog [R=301,L]
 
+# blog sitemap (live posts only)
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
 # internal folders ko direct browser access band
 RewriteRule ^(content|\.github)(/|$) - [F,L]
 
