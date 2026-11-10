@@ -80,10 +80,10 @@ function faq_html($faqs) {
 function cta_html() {
     return '<div class="civil-works-cta"><div class="cta-icon"><i class="fas fa-hard-hat"></i></div>
 <div class="cta-content"><h3>Planning Your Project?</h3>
-<p>Get expert guidance on design, materials, and cost planning from the <a href="https://stylfixx.com/civil-works.php">Stylfixx team</a>.</p>
+<p>Get expert guidance on design, materials, and cost planning from the <a href="https://stylfixx.com/civil-works">Stylfixx team</a>.</p>
 <div class="cta-buttons">
-<a href="https://stylfixx.com/civil-works.php" class="cta-button primary"><i class="fas fa-tools"></i> Explore Our Services</a>
-<a href="https://stylfixx.com/contact-us.php" class="cta-button secondary"><i class="fas fa-phone"></i> Contact Us</a>
+<a href="https://stylfixx.com/civil-works" class="cta-button primary"><i class="fas fa-tools"></i> Explore Our Services</a>
+<a href="https://stylfixx.com/contact-us" class="cta-button secondary"><i class="fas fa-phone"></i> Contact Us</a>
 </div></div></div>';
 }
 
