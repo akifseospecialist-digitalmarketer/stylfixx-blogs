@@ -4,9 +4,10 @@
   "slug": "renovate-or-rebuild-old-house",
   "show_cta": true,
   "date": "2026-11-10",
+  "status": "published",
   "seo_title": "Renovate or Rebuild an Old House? 2026 Bangalore Guide",
   "title": "Renovate or Rebuild? Old House Renovation Guide for Bangalore (2026)",
-  "image": "/blog/images/renovate-or-rebuild-old-house.webp",
+  "image": "/blog/images/renovaterebuild.webp",
   "description": "Should you renovate or rebuild an old house? Compare structure, 2026 Bangalore costs per sq ft, approvals and timelines, with a worked example to decide.",
   "faqs": [
     {
@@ -30,6 +31,5 @@
       "answer": "Only if a structural engineer confirms the foundation and columns can carry it, or can be strengthened. Otherwise rebuilding is the safer option."
     }
   ],
-  "category": "Construction",
-  "status": "published"
+  "category": "Construction"
 }
