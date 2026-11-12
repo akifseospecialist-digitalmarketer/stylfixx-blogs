@@ -4,9 +4,10 @@
   "slug": "post-construction-cleaning-checklist",
   "show_cta": true,
   "date": "2026-11-10",
+  "status": "published",
   "seo_title": "Post-Construction Cleaning Checklist (Room by Room)",
   "title": "Post-Construction Cleaning Checklist: A Room-by-Room Guide",
-  "image": "/blog/images/post-construction-cleaning-checklist.webp",
+  "image": "/blog/images/postconstruction.webp",
   "description": "A complete post-construction cleaning checklist: three passes, room-by-room tasks, tools, mistakes to avoid and 2026 Bangalore costs for professional cleaning.",
   "faqs": [
     {
@@ -30,6 +31,5 @@
       "answer": "After every trade has finished, including paint touch-ups and electrical fittings, and before furniture moves in."
     }
   ],
-  "category": "Construction",
-  "status": "published"
+  "category": "Construction"
 }
